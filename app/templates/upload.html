@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Analyse de CV académique</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Sélectionnez un fichier PDF de CV</label>
+                        <input class="form-control" type="file" id="file" name="file" accept=".pdf" required>
+                        <div class="form-text">Seuls les fichiers PDF sont acceptés.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Analyser</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Instructions</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Téléchargez un CV au format PDF</li>
+                    <li>Le système extraira automatiquement le nom, prénom et informations académiques</li>
+                    <li>Recherche des publications dans Scopus</li>
+                    <li>Calcul des scores SFR et classement des publications</li>
+                </ol>
+                <div class="alert alert-warning">
+                    <strong>Note:</strong> Le traitement peut prendre quelques minutes selon le nombre de publications.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

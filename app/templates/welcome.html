@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-4">
+                    <h1 class="display-4">
+                        <i class="fas fa-graduation-cap me-3"></i>Analyse académique
+                    </h1>
+                    <p class="lead mb-0">Système d'évaluation des profils académiques</p>
+                    <div class="welcome-bubble">
+                    👋 Salut, prêt(e) à explorer ?
+                    </div>
+
+                </div>
+                
+                <div class="card-body py-5">
+                    <div class="mb-5">
+                       <h2 id="greeting" class="mb-4"></h2>
+                        <p class="lead">
+                            Choisissez le mode d'évaluation adapté à vos besoins :
+                        </p>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <!-- Scénario 1 : Recrutement -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-primary">
+                                <div class="card-body text-center py-4">
+                                    <div class="icon-lg bg-primary-light text-primary mb-4">
+                                        <i class="fas fa-user-tie fa-2x"></i>
+                                    </div>
+                                    <h3>Scénario 1</h3>
+                                    <h4 class="text-primary mb-3">Recrutement académique</h4>
+                                    <p class="px-3">
+                                        Évaluation comparative de plusieurs candidats pour un poste.
+                                    </p>
+                                    <a href="{{ url_for('main.upload') }}" class="btn btn-primary mt-3 px-4">
+                                        <i class="fas fa-play me-2"></i>Commencer
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Scénario 2 : Promotion -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center py-4">
+                                    <div class="icon-lg bg-success-light text-success mb-4">
+                                        <i class="fas fa-chart-line fa-2x"></i>
+                                    </div>
+                                    <h3>Scénario 2</h3>
+                                    <h4 class="text-success mb-3">Évaluation pour promotion</h4>
+                                    <p class="px-3">
+                                        Analyse approfondie d'un chercheur pour décision de promotion.
+                                    </p>
+                                    <a href="{{ url_for('main.scenario_evaluation') }}" class="btn btn-success mt-3 px-4">
+                                        <i class="fas fa-play me-2"></i>Commencer
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Système développé par Brice Roméo et Malake
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const greetingEl = document.getElementById("greeting");
+const now = new Date();
+const hour = now.getHours();
+let greeting = "Bienvenue, cher utilisateur !";
+
+if (hour < 12) {
+    greeting = "☀️ Bonjour, cher utilisateur !";
+} else if (hour < 18) {
+    greeting = "🌤️ Bon après-midi, cher utilisateur !";
+} else {
+    greeting = "🌙 Bonsoir, cher utilisateur !";
+}
+greetingEl.textContent = greeting;
+
+document.querySelectorAll('a').forEach(link => {
+  if (link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = url; }, 500);
+    });
+  }
+});
+</script>
+{% endblock %}

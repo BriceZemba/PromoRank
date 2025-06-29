@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-5 text-success"><i class="fas fa-chart-line me-2"></i>Évaluation Scientifique</h1>
+                <p class="lead">Analyse automatique des publications via ORCID et Scopus</p>
+                <hr class="w-25 mx-auto bg-success">
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-user me-2"></i>Profil du chercheur</h4>
+                </div>
+                <div class="card-body">
+                    <form id="evaluation-form" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" class="form-control" name="first_name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nom</label>
+                                <input type="text" class="form-control" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Critères d'évaluation</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="criteria[]" value="impact" checked>
+                                <label class="form-check-label">Impact scientifique</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="criteria[]" value="originality" checked>
+                                <label class="form-check-label">Originalité des travaux</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="criteria[]" value="leadership">
+                                <label class="form-check-label">Leadership</label>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-search me-2"></i>Évaluer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bloc Résultats -->
+            <div id="results-container" class="card shadow d-none">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Résultats de l'évaluation</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>Nom :</strong> <span id="researcher-name" class="float-end"></span></li>
+                        <li class="list-group-item"><strong>Publications :</strong> <span id="publication-count" class="float-end"></span></li>
+                        <li class="list-group-item"><strong>Indice h :</strong> <span id="h-index" class="float-end"></span></li>
+                        <li class="list-group-item"><strong>ORCID :</strong> <span id="orcid-id" class="float-end"></span></li>
+                    </ul>
+
+                    <div class="alert alert-info">
+                        <strong>Décision :</strong> <span id="recommendation-block" class="fw-bold"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-muted">Résumé de l'évaluation</h6>
+                        <div id="evaluation-report" class="bg-light border p-3 rounded text-monospace"></div>
+                    </div>
+
+                    <div class="text-end">
+                        <a id="download-link" href="#" class="btn btn-outline-success d-none" target="_blank">
+                            <i class="fas fa-file-download me-2"></i>Télécharger le rapport PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('evaluation-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    fetch('{{ url_for("main.evaluate_researcher") }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert("Erreur : " + data.error);
+            return;
+        }
+        document.getElementById('researcher-name').textContent = data.researcher.full_name;
+        document.getElementById('orcid-id').textContent = data.researcher.orcid_id || 'Non trouvé';
+        document.getElementById('publication-count').textContent = data.researcher.total_publications;
+        document.getElementById('h-index').textContent = data.researcher.h_index;
+        document.getElementById('evaluation-report').textContent = data.report;
+
+        const resultCard = document.getElementById('results-container');
+        resultCard.classList.remove('d-none');
+
+        const recommendationBlock = document.getElementById('recommendation-block');
+        if (recommendationBlock) {
+            recommendationBlock.textContent = data.recommendation;
+        }
+
+        const downloadLink = document.getElementById('download-link');
+        if (data.pdf_url) {
+            downloadLink.href = data.pdf_url;
+            downloadLink.classList.remove('d-none');
+        }
+    })
+    .catch(error => alert("Erreur réseau : " + error));
+});
+</script>
+{% endblock %}

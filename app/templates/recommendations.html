@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-star me-2"></i>
+            Top {{ candidates|length }} candidats recommandés
+        </h2>
+        <a href="{{ url_for('main.recommendations') }}" class="btn btn-outline-primary">
+            <i class="fas fa-edit me-2"></i>Modifier les critères
+        </a>
+    </div>
+
+    <!-- Filtres appliqués -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-filter me-2"></i>Filtres appliqués</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="badge bg-primary">
+                    <i class="fas fa-users me-1"></i> Nombre: {{ form_data.num_candidates }}
+                </span>
+                <span class="badge bg-info text-dark">
+                    <i class="fas fa-chart-line me-1"></i> H-Index min: {{ form_data.min_h_index }}
+                </span>
+                {% if form_data.specialization %}
+                <span class="badge bg-success">
+                    <i class="fas fa-atom me-1"></i> Spécialisation: {{ form_data.specialization }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste des candidats -->
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for candidate in candidates %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-0">
+                            <span class="badge bg-primary rounded-pill me-2">{{ loop.index }}</span>
+                            {{ candidate.name }}
+                        </h5>
+                        <span class="badge bg-success">
+                            H-Index: {{ candidate.h_index }}
+                        </span>
+                    </div>
+                </div>
+                <!-- <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <i class="fas fa-tags me-1"></i>Spécialisations
+                    </h6>
+                        {% for spec, count in candidate.specializations %}
+                            {% if count > 0 %}
+                            <span class="badge bg-secondary me-1">
+                                
+                            </span>
+                            {% endif %}
+                        {% else %}
+                            <span class="text-muted">Aucune spécialisation identifiée</span>
+                        {% endfor %}
+                    </div> -->
+                    
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-info" 
+                             
+                             role="progressbar">
+                            Score: {{ "%.1f"|format(candidate.score) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('main.candidate_detail', candidate_id=candidate.id) }}" 
+                       class="btn btn-sm btn-outline-primary me-2">
+                        <i class="fas fa-eye me-1"></i>Voir profil
+                    </a>
+                    <button class="btn btn-sm btn-outline-success me-2" class="contact-btn" onclick="contactCandidate('Spécialisations')">
+                        <i class="fas fa-envelope me-1"></i>Contacter
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-file-download me-1"></i>Exporter
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function contactCandidate(candidateName) {
+    // Ici vous pouvez ajouter la logique pour contacter le candidat
+    alert(`Contact initié avec le candidat`);
+    // Exemple: ouvrir un formulaire de contact ou envoyer un email
+    //alert(`Fonctionnalité de contact pour ${candidateName} sera implémentée ici`);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,311 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.table th {
+    background-color: #f1f1f1;
+    font-weight: 600;
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom colors */
+.bg-primary {
+    background-color: #3f51b5 !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.text-primary {
+    color: #3f51b5 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+/* Timeline styling */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 29px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+
+.timeline-step:last-child {
+    padding-bottom: 0;
+}
+
+/* Card enhancements */
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+/* FAQ accordion */
+.btn-link {
+    color: #495057;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+}
+
+.btn-link:hover {
+    color: #0d6efd;
+}
+
+/* Style de base pour la navigation */
+.navbar-nav .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol */
+.navbar-nav .nav-link:hover {
+    color: #0d6efd;
+}
+
+/* Style pour le lien actif */
+.navbar-nav .nav-item.active .nav-link {
+    color: #0d6efd;
+    font-weight: 500;
+}
+
+/* Soulignement animé */
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #0d6efd;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+/* Animation au survol */
+.navbar-nav .nav-link:hover::after {
+    width: calc(100% - 2rem);
+}
+
+/* Soulignement permanent pour la page active */
+.navbar-nav .nav-item.active .nav-link::after {
+    width: calc(100% - 2rem);
+    opacity: 1;
+}
+
+/* Style de la barre de navigation */
+.navbar {
+    padding: 0.8rem 1rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.navbar-brand i {
+    color: #4e73df;
+}
+
+.nav-item {
+    margin: 0 0.3rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.3rem;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(78, 115, 223, 0.1);
+}
+
+.nav-item.active .nav-link {
+    color: #4e73df;
+    font-weight: 500;
+}
+
+/* Badge du compteur */
+.navbar .badge {
+    font-size: 0.65rem;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Icônes */
+.nav-link i {
+    width: 1.2em;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+/* Animation au clic */
+.nav-link:active {
+    transform: scale(0.96);
+}
+
+/* Styles pour la nouvelle page d'accueil */
+.icon-lg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.bg-primary-light {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+.card-hover-effect {
+    transition: all 0.3s ease;
+}
+
+.card-hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour la page d'évaluation */
+.evaluation-criteria {
+    border-left: 3px solid #198754;
+    padding-left: 1rem;
+}
+
+
+#greeting {
+    animation: fadeInGreeting 1.5s ease-in-out;
+}
+
+@keyframes fadeInGreeting {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-bubble {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #1c1a1aee;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  animation: floatIn 1s ease-out, fadeOutBubble 30s forwards;
+  z-index: 1000;
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutBubble {
+  to { opacity: 0; transform: translateY(10px); visibility: hidden; }
+}
+
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.7s ease-out;
+}
+
+#splash-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOutSplash 2s ease forwards;
+  animation-delay: 1s;
+}
+
+.splash-logo {
+  width: 120px;
+  height: 120px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes fadeOutSplash {
+  to { opacity: 0; visibility: hidden; }
+}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- En-tête -->
+            <div class="text-center mb-4">
+                <h1 class="display-4 text-primary">
+                    <i class="fas fa-info-circle"></i> Instructions d'utilisation
+                </h1>
+                <hr class="w-25 mx-auto bg-primary">
+            </div>
+
+            <!-- Processus en cards compactes -->
+            <div class="mb-5">
+                <h2 class="h4 mb-3 text-muted">Processus d'analyse des CV académiques</h2>
+                
+                <div class="list-group">
+                    <div class="list-group-item border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary rounded-circle me-3">1</span>
+                            <div>
+                                <h5 class="mb-1">Téléversement du CV</h5>
+                                <p class="mb-0 small">Déposez un fichier PDF contenant le CV académique</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-group-item border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary rounded-circle me-3">2</span>
+                            <div>
+                                <h5 class="mb-1">Extraction automatique</h5>
+                                <p class="mb-0 small">Le système extrait le nom, prénom et formations</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-group-item border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary rounded-circle me-3">3</span>
+                            <div>
+                                <h5 class="mb-1">Recherche Scopus</h5>
+                                <p class="mb-0 small">Identification des publications via l'API Scopus</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-group-item border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary rounded-circle me-3">4</span>
+                            <div>
+                                <h5 class="mb-1">Analyse SFR</h5>
+                                <p class="mb-0 small">Calcul des scores et classement des publications</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-group-item border-0 py-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary rounded-circle me-3">5</span>
+                            <div>
+                                <h5 class="mb-1">Résultats</h5>
+                                <p class="mb-0 small">Visualisation interactive des résultats</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton d'action -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('main.upload') }}" class="btn btn-primary btn-lg px-4">
+                    <i class="fas fa-play me-2"></i> Commencer l'analyse
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

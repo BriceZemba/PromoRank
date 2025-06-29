@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3><i class="fas fa-user-cog me-2"></i>Générer des recommandations</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.recommendations') }}">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="num_candidates" class="form-label">
+                                    <i class="fas fa-users me-2"></i>Nombre de candidats
+                                </label>
+                                <input type="range" class="form-range" min="1" max="20" step="1" 
+                                       id="num_candidates" name="num_candidates" value="5"
+                                       oninput="updateSliderValue(this.value)">
+                                <div class="text-center">
+                                    <span id="sliderValue" class="badge bg-primary">5</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="min_h_index" class="form-label">
+                                    <i class="fas fa-chart-line me-2"></i>H-Index minimum
+                                </label>
+                                <input type="number" class="form-control" 
+                                       id="min_h_index" name="min_h_index" min="0" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="specialization" class="form-label">
+                                <i class="fas fa-atom me-2"></i>Spécialisation recherchée
+                            </label>
+                            <input type="text" class="form-control" 
+                                   id="specialization" name="specialization"
+                                   placeholder="IA, Biologie, Physique...">
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-magic me-2"></i>Générer les recommandations
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateSliderValue(value) {
+    document.getElementById('sliderValue').textContent = value;
+}
+</script>
+{% endblock %}

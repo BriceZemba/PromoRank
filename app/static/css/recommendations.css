@@ -1,0 +1,52 @@
+/* static/css/recommendations.css */
+.card-title i {
+    font-size: 1.1em;
+}
+
+.recommendation-card {
+    transition: transform 0.2s;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.border-success {
+    border-left: 4px solid #28a745 !important;
+}
+
+.border-warning {
+    border-left: 4px solid #ffc107 !important;
+}
+/* static/css/recommendations.css */
+.progress {
+    border-radius: 10px;
+    overflow: visible;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    position: relative;
+    overflow: visible;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: inherit;
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.card-hover-effect:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}

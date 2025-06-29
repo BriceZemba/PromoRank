@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4>Profil du Candidat</h4>
+                </div>
+                <div class="card-body">
+                    <h5>{{ candidate.first_name }} {{ candidate.last_name }}</h5>
+                    <p class="text-muted">{{ candidate.email }}</p>
+
+                    <div class="mt-4">
+                        <h6>Statistiques clés:</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Publications totales
+                                <span class="badge bg-primary rounded-pill">{{ stats.total_publications }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Citations totales
+                                <span class="badge bg-success rounded-pill">{{ stats.total_citations }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                H-Index
+                                <span class="badge bg-info rounded-pill">{{ stats.h_index }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Journal principal
+                                <span class="badge bg-warning text-dark">{{ stats.top_journal }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5>Documents</h5>
+                </div>
+                <div class="card-body">
+                    {% if candidate.documents %}
+                        {% for doc in candidate.documents %}
+                            <div class="mb-2">
+                                <a href="{{ url_for('static', filename='uploads/' + doc.filename) }}"
+                                   target="_blank" class="text-decoration-none">
+                                    <i class="fas fa-file-pdf text-danger"></i> {{ doc.filename }}
+                                </a>
+                                <small class="text-muted d-block">{{ doc.upload_date.strftime('%d/%m/%Y') }}</small>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Aucun document trouvé</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Publications Scientifiques</h4>
+                        <span class="badge bg-light text-dark">
+                            Moyenne: {{ "%.1f"|format(stats.avg_citations) }} citations/pub.
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <!-- <th>Rang</th> -->
+                                    <th>Titre</th>
+                                    <th>Journal</th>
+                                    <th>Année</th>
+                                    <th>Citations</th>
+                                    <!-- <th>Score</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pub in publications[:10] %}
+                                <tr>
+                                    <!-- <td>{{ pub.rank }}</td> -->
+                                    <td>
+                                        <a href="https://www.scopus.com/record/display.uri?eid={{ pub.scopus_id }}"
+                                           target="_blank" title="Voir dans Scopus">
+                                            {{ pub.title[:50] }}{% if pub.title|length > 50 %}...{% endif %}
+                                        </a>
+                                    </td>
+                                    <td>{{ pub.journal[:20] }}{% if pub.journal|length > 20 %}...{% endif %}</td>
+                                    <td>{{ pub.year }}</td>
+                                    <td>{{ pub.citations }}</td>
+                                    <!-- <td>
+                                        {% if pub.sfr_score is not none %}
+                                            {{ "%.2f"|format(pub.sfr_score) }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td> -->
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Graphique -->
+                    <div class="mt-4">
+                        <h5>Évolution des citations</h5>
+                        <canvas id="citationsChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-outline-primary" onclick="window.print()">
+                            <i class="fas fa-print"></i> Imprimer ce profil
+                        </button>
+                        <a href="{{ url_for('main.list_candidates') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script graphique -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('citationsChart');
+    if (ctx) {
+        // Données sécurisées avec valeurs par défaut
+        const years = {{ stats['years'] | tojson | safe }};
+        const citations = {{ stats['citations_by_year'] | tojson | safe }};
+        console.log("Years:", years);
+
+        if (years.length && citations.length) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Citations par année',
+                        data: citations,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        } else {
+            ctx.parentElement.innerHTML = '<p class="text-muted">Données insuffisantes pour afficher le graphique</p>';
+        }
+    }
+});
+</script>
+
+<script>
+document.querySelectorAll('a').forEach(link => {
+  if (link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const url = this.href;
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = url; }, 500);
+    });
+  }
+});
+</script>
+
+{% endblock %}
